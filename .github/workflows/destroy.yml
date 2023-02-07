@@ -14,6 +14,7 @@ jobs:
   tf-plan:
     name: 'terraform: init,validate,plan'
     runs-on: ubuntu-latest
+    environment: dev-plan
 
     defaults:
       run:
@@ -27,7 +28,56 @@ jobs:
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile default
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile default
+          
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "${{ env.TF_VER }}"
 
+      - name: terraform init
+        run: |
+          cd "${{ env.WORKING_DIR}}"
+          terraform init -input=false
+
+      - name: terraform validate
+        run: |
+          cd "${{ env.WORKING_DIR}}"
+          terraform validate
+
+      - name: terraform plan
+        id: tf-plan
+        run: |
+          cd "${{ env.WORKING_DIR}}"
+          terraform plan -detailed-exitcode -input=false
+        continue-on-error: true
+
+      - name: Check for "terraform plan" failure
+        if: steps.tf-plan.outputs.exitcode == 1
+        run: exit 1
+
+    outputs:
+      tf-plan-exit-code: ${{ steps.tf-plan.outputs.exitcode }}
+
+  tf-destroy:
+    name: 'terraform: destroy'
+    runs-on: ubuntu-latest
+    needs: tf-plan
+    if: needs.tf-plan.outputs.tf-plan-exit-code == 2
+    environment: dev-destroy
+    
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Add profile credentials to ~/.aws/credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile default
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile default
+ 
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -48,7 +98,7 @@ jobs:
           cd "${{ env.WORKING_DIR}}"
           terraform validate
   
-      - name: terraform destroy
+      - name: terraform apply
         run: |
           cd "${{ env.WORKING_DIR}}"
           terraform destroy -auto-approve
