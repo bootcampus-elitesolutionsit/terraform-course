@@ -1,8 +1,8 @@
 # Vpc
 resource "aws_vpc" "primary" {
-  cidr_block         = "10.0.0.0/24"
+  cidr_block         = local.cidr_block
   enable_dns_support = var.enable_dns_support
-  instance_tenancy   = "default"
+  instance_tenancy   = local.instance_tenancy
 
   tags = {
     Name = "primary"
