@@ -2,7 +2,7 @@
 variable "ami" {
   description = "Ec2 AMI ID to be Used"
   type        = string
-  default     = "ami-00874d747dde814fa"
+  default     = "ami-0dfcb1ef8550277af"
 }
 
 variable "instance_type" {
@@ -24,9 +24,6 @@ variable "key_name" {
 }
 
 variable "tags" {
-  type = map(any)
-  default = {
-    Name = "php-app"
-    Env  = "Dev"
-  }
+  type    = map(any)
+  default = {}
 }

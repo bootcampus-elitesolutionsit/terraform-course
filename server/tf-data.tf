@@ -1,7 +1,30 @@
-data "aws_subnet" "Public_subnet" {
-  id = "subnet-09fd99dbfa17c3e0a"
+data "aws_subnet" "Public_subnet_1" {
+  id = local.Public_subnet_1
+}
+
+data "aws_subnet" "Public_subnet_2" {
+  id = local.Public_subnet_2
 }
 
 data "aws_security_group" "ec2_sg" {
-  id = "sg-09de77d02431e300d"
+  id = local.ec2_sg
 }
+
+data "cloudinit_config" "php" {
+  gzip          = true
+  base64_encode = true
+
+  # part {
+  #   content_type = "text/x-shellscript"
+  #   content      = "phuserdata_phpp"
+  #   filename     = "userdata_php.sh"
+  # }
+
+  part {
+    content_type = "text/x-shellscript"
+    filename     = "userdata_php"
+    content      = templatefile("templates/userdata_php.tpl", {})
+  }
+
+}
+
