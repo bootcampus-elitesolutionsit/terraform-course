@@ -5,6 +5,8 @@
 *.tfstate
 *.tfstate.*
 *.lock.*
+*projectserver*
+*projectserver.pub*
 
 # Crash log files
 crash.log
