@@ -24,7 +24,7 @@ data "aws_iam_policy_document" "allow_access_from_lb" {
     actions = [
       "s3:GetObject",
       "s3:ListBucket",
-      "s3:PutObject"
+      "s3:PutObject",
     ]
 
     resources = [
@@ -36,3 +36,4 @@ data "aws_iam_policy_document" "allow_access_from_lb" {
     aws_s3_bucket.loadbalancer_s3
   ]
 }
+
