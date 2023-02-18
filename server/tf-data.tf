@@ -10,6 +10,15 @@ data "aws_security_group" "ec2_sg" {
   id = local.ec2_sg
 }
 
+data "aws_security_group" "lb_sg" {
+  id = local.lb_sg
+}
+
+data "aws_vpc" "vpc_id" {
+  id = local.vpc_id
+}
+
+
 data "cloudinit_config" "php" {
   gzip          = true
   base64_encode = true

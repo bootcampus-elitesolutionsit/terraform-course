@@ -12,6 +12,8 @@ resource "aws_subnet" "Public_subnet_1" {
   vpc_id                  = aws_vpc.primary.id
   cidr_block              = "10.0.0.0/25"
   map_public_ip_on_launch = true
+  availability_zone       = "us-east-1a"
+
 
   tags = {
     Name = "primary-public-subnet-1"
@@ -21,8 +23,9 @@ resource "aws_subnet" "Public_subnet_1" {
 
 # Subnet - Private
 resource "aws_subnet" "Public_subnet_2" {
-  vpc_id     = aws_vpc.primary.id
-  cidr_block = "10.0.0.128/25"
+  vpc_id            = aws_vpc.primary.id
+  cidr_block        = "10.0.0.128/25"
+  availability_zone = "us-east-1b"
 
   tags = {
     Name = "primary-public-subnet-2"

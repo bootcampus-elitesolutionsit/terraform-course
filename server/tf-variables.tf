@@ -27,3 +27,18 @@ variable "tags" {
   type    = map(any)
   default = {}
 }
+
+variable "target_group_name" {
+  type    = string
+  default = "tgt-php-demo"
+}
+
+variable "port" {
+  type    = number
+  default = 80
+}
+
+variable "protocol" {
+  type    = string
+  default = "HTTP"
+}
