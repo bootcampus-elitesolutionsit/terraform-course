@@ -60,15 +60,27 @@ resource "aws_lb_listener" "front_end" {
   }
 }
 
-resource "aws_lb_listener" "back_end" {
+resource "aws_lb_listener" "backend" {
   load_balancer_arn = aws_lb.loadbalancer.arn
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:us-east-1:375866976303:certificate/c91ed6f3-6110-48c3-9292-b5a63ac89eeb"
+  certificate_arn   = aws_acm_certificate.cert.arn
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group.arn
+  }
+}
+
+resource "aws_route53_record" "www" {
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = local.record_name
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.loadbalancer.dns_name
+    zone_id                = aws_lb.loadbalancer.zone_id
+    evaluate_target_health = true
   }
 }

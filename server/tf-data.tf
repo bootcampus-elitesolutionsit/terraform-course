@@ -18,6 +18,11 @@ data "aws_vpc" "vpc_id" {
   id = local.vpc_id
 }
 
+data "aws_route53_zone" "zone" {
+  name         = local.hosted_zone_name
+  private_zone = false
+}
+
 
 data "cloudinit_config" "php" {
   gzip          = true
@@ -32,8 +37,14 @@ data "cloudinit_config" "php" {
   part {
     content_type = "text/x-shellscript"
     filename     = "userdata_php"
-    content      = templatefile("templates/userdata_php.tpl", {})
-  }
+    content = templatefile("../templates/userdata_php.tpl",
 
+      {
+        username    = var.username
+        group       = var.group
+        Repository  = var.Repository
+        db_password = aws_secretsmanager_secret_version.version.secret_string
+    })
+  }
 }
 
