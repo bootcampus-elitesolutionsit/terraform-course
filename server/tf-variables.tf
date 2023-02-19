@@ -42,3 +42,19 @@ variable "protocol" {
   type    = string
   default = "HTTP"
 }
+
+variable "username" {
+  type = string
+}
+
+variable "group" {
+  type = string
+}
+
+variable "Repository" {
+  type = string
+}
+
+variable "db_secrets" {
+  type = string
+}
