@@ -28,7 +28,6 @@ resource "aws_security_group" "ec2_sg" {
   }
 
   tags = {
-    Name = "allow_ssh"
-    Name = "dev"
+    Name = "local.common_tags"
   }
 }

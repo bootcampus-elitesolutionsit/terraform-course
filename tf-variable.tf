@@ -8,7 +8,7 @@ variable "ami" {
 variable "instance_type" {
   description = "EC2 instance_type to be deployed"
   type        = string
-  default     = "t3.micro"
+  default     = "t2.micro"
 }
 
 variable "public_key" {
@@ -22,3 +22,18 @@ variable "key_name" {
   type        = string
   default     = "project_ssh_key"
 }
+
+
+variable "bucket" {
+  type    = string
+  default = "nikky-tf-bucket"
+}
+
+variable "tag" {
+  type = map(any)
+  default = {
+    Name = "projectserver"
+    Env  = "Dev"
+  }
+}
+
