@@ -1,34 +1,34 @@
 # Vpc
 resource "aws_vpc" "primary" {
-  cidr_block         = "10.0.0.0/24"
+  cidr_block         = local.cidr_block
   enable_dns_support = var.enable_dns_support
-  instance_tenancy   = "default"
+  instance_tenancy   = local.instance_tenancy
 
-  tags = {
-    Name = "primary"
-    Env  = "dev"
-  }
+  tags = merge({ Name = "primary-vpc", Env = "dev" }, var.tags, local.network_tags)
 }
 
 # Subnet - Public
-resource "aws_subnet" "Public_subnet" {
+resource "aws_subnet" "Public_subnet_1" {
   vpc_id                  = aws_vpc.primary.id
   cidr_block              = "10.0.0.0/25"
   map_public_ip_on_launch = true
+  availability_zone       = "us-east-1a"
+
 
   tags = {
-    Name = "primary-public-subnet"
+    Name = "primary-public-subnet-1"
     Env  = "dev"
   }
 }
 
 # Subnet - Private
-resource "aws_subnet" "Private_subnet" {
-  vpc_id     = aws_vpc.primary.id
-  cidr_block = "10.0.0.128/25"
+resource "aws_subnet" "Public_subnet_2" {
+  vpc_id            = aws_vpc.primary.id
+  cidr_block        = "10.0.0.128/25"
+  availability_zone = "us-east-1b"
 
   tags = {
-    Name = "primary-private-subnet"
+    Name = "primary-public-subnet-2"
     Env  = "dev"
   }
 }
@@ -59,7 +59,12 @@ resource "aws_route_table" "primary_rtb" {
 }
 
 # Rtb assoc
-resource "aws_route_table_association" "primary_rtb_assoc" {
-  subnet_id      = aws_subnet.Public_subnet.id
+resource "aws_route_table_association" "primary_rtb_assoc_1" {
+  subnet_id      = aws_subnet.Public_subnet_1.id
+  route_table_id = aws_route_table.primary_rtb.id
+}
+
+resource "aws_route_table_association" "primary_rtb_assoc_2" {
+  subnet_id      = aws_subnet.Public_subnet_2.id
   route_table_id = aws_route_table.primary_rtb.id
 }
