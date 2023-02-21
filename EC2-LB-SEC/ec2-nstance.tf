@@ -10,7 +10,7 @@ resource "aws_internet_gateway" "dev_gw" {
 }
 
 # Create subnet
-resource "aws_subnet" "dev-subnet" {
+resource "aws_subnet" "public_subnet1Z" {
   vpc_id     = aws_vpc.dev-vpc.id
   cidr_block = "10.0.1.0/24"
 }
@@ -38,9 +38,13 @@ resource "aws_security_group" "dev-scgroup" {
 }
 
 # Create EC2 instance
-resource "aws_instance" "server_dev" {
-  ami                    = "ami-0735c191cf914754d"
+
+resource "aws_instance" "ansible-server" {
+  ami                    = "ami-065bb5126e4504910"
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.dev-subnet.id
   vpc_security_group_ids = [aws_security_group.dev-scgroup.id]
+  user_data              = file("script.sh")
 }
+
+
