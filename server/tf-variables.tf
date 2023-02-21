@@ -55,6 +55,10 @@ variable "Repository" {
   type = string
 }
 
-variable "db_secrets" {
+variable "db_user" {
+  type = string
+}
+
+variable "db_name" {
   type = string
 }

@@ -40,10 +40,12 @@ data "cloudinit_config" "php" {
     content = templatefile("../templates/userdata_php.tpl",
 
       {
-        username    = var.username
-        group       = var.group
-        Repository  = var.Repository
-        db_password = aws_secretsmanager_secret_version.version.secret_string
+        username   = var.username
+        group      = var.group
+        Repository = var.Repository
+        db_name    = var.db_name
+        db_user    = var.db_user
+        db_secrets = aws_secretsmanager_secret_version.version.secret_string
     })
   }
 }
