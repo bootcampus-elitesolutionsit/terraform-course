@@ -1,8 +1,8 @@
 resource "aws_vpc" "terra" {
-  cidr_block       = "10.0.0.0/18"
+  cidr_block         = "10.0.0.0/18"
   enable_dns_support = true
-  instance_tenancy = "default"
-  
+  instance_tenancy   = "default"
+
 
   tags = {
     Name = "terra"
@@ -10,9 +10,10 @@ resource "aws_vpc" "terra" {
 }
 
 resource "aws_subnet" "terra_pub" {
-  vpc_id     = aws_vpc.terra.id
-  cidr_block = "10.0.0.0/20"
+  vpc_id                  = aws_vpc.terra.id
+  cidr_block              = "10.0.0.0/20"
   map_public_ip_on_launch = true
+  availability_zone       = "us-west-2a"
 
   tags = {
     Name = "terra_pub"
@@ -20,9 +21,10 @@ resource "aws_subnet" "terra_pub" {
 }
 
 resource "aws_subnet" "terra_pub2" {
-  vpc_id     = aws_vpc.terra.id
-  cidr_block = "10.0.16.0/20"
+  vpc_id                  = aws_vpc.terra.id
+  cidr_block              = "10.0.16.0/20"
   map_public_ip_on_launch = true
+  availability_zone       = "us-west-2b"
 
   tags = {
     Name = "terra_pub2"
