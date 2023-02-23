@@ -64,6 +64,6 @@ variable "db_name" {
 }
 
 variable "key" {
-  type = string
+  type    = string
   default = "demoserver"
 }
