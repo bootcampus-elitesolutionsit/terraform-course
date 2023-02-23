@@ -1,12 +1,12 @@
 #!/bin/bash
 exec > >(tee /tmp/test.log) 2>&1
-file=logs.txt
 
+file=logs.txt
 if [ -f $file ]
 then 
-  echo " $file exist "
+  echo " $file exist " > ouput.txt
 else 
- echo " $file do not exist "
+ echo " $file do not exist " > results.txt
 fi
 
 IP_FILE="$HOME/ipaddressfile"
@@ -29,4 +29,16 @@ else
   The IP address at home stayed the same $CURRENT_IP"
 fi
 
-cat $HOME/ipaddressfile > ipaddressfile.txt
+cat $HOME/ipaddressfile > ipaddressfile.ip
+
+sudo yum -y update
+sudo amazon-linux-extras install php8.0 mariadb10.5 -y
+sudo yum install -y httpd
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo usermod -a -G apache ec2-user
+
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+sudo yum -y install terraform
+terraform -help > $HOME/terraform.txt
