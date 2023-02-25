@@ -16,7 +16,7 @@ crash.*.log
 # to change depending on the environment.
 *.tfvars
 *.tfvars.json
-*.worldserver
+
 
 
 # Ignore override files as they are usually used to override resources locally and so
@@ -37,4 +37,12 @@ override.tf.json
 terraform.rc
 
 # ssh Keys
-*demoserver*
+worldserver
+
+
+
+
+
+
+
+
