@@ -49,4 +49,3 @@ data "cloudinit_config" "php" {
     })
   }
 }
-
