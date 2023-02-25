@@ -4,7 +4,7 @@ resource "aws_instance" "demo_server" {
   subnet_id              = data.aws_subnet.Public_subnet_1.id
   vpc_security_group_ids = [data.aws_security_group.ec2_sg.id, data.aws_security_group.lb_sg.id]
   key_name               = aws_key_pair.ssh_key.key_name
-  # user_data_base64       = data.cloudinit_config.php.rendered
+  user_data_base64       = data.cloudinit_config.php.rendered
   tags = merge({ Name = "php-demoapp", Env = "dev" }, var.tags, local.application_tags)
 
   connection {
@@ -28,7 +28,7 @@ resource "aws_instance" "demo_server" {
   }
   provisioner "local-exec" {
     command = "echo ${self.private_ip} >> private_ips.txt"
-    when    = destroy
+    # when    = destroy
   }
 }
 
