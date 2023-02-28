@@ -24,11 +24,6 @@ variable "map_public_ip_on_launch" {
   type        = bool
 }
 
-variable "availability_zone" {
-  description = "Available zones"
-  type        = string
-}
-
 variable "cidr_block_route" {
   description = "route for internet to public subnet"
   type        = string
@@ -74,4 +69,41 @@ variable "public_subnet_tags" {
   description = "Additional tags for the public subnets"
   type        = map(string)
   default     = {}
+}
+
+variable "private_subnets" {
+  description = "A list of private subnets inside the VPC"
+  type        = list(string)
+  default     = []
+}
+
+variable "azs" {
+  description = "A list of availability zones names or ids in the region"
+  type        = list(string)
+  default     = []
+}
+
+variable "security_group" {
+  type    = bool
+  default = true
+}
+
+variable "security_group_ingress" {
+  description = "List of maps of ingress rules to set on the security group"
+  type        = list(map(string))
+  default     = null
+}
+
+variable "security_group_egress" {
+  description = "List of maps of ingress rules to set on the security group"
+  type        = list(map(string))
+  default     = null
+}
+
+variable "security_group_name" {
+  type = string
+}
+
+variable "description" {
+  type = string
 }

@@ -2,7 +2,7 @@ resource "aws_instance" "demo_server" {
   ami           = coalesce(data.aws_ami.ubuntu.id, var.ami)
   instance_type = "t2.micro"
   subnet_id     = module.vpc.public_subnet_id[3]
-  # vpc_security_group_ids = [aws_security_group.ec2_sg.id, aws_security_group.lb_sg.id]
+  # vpc_security_group_ids = [module.vpc.security_group_id]
   key_name = aws_key_pair.ssh_key.key_name
   #   user_data_base64       = data.cloudinit_config.php.rendered
   tags = merge({ Name = "php-demoapp", Env = "dev" }, var.tags, local.application_tags)
