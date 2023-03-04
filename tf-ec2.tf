@@ -1,9 +1,9 @@
 resource "aws_instance" "demo_server" {
-  ami           = coalesce(data.aws_ami.ubuntu.id, var.ami)
-  instance_type = "t2.micro"
-  subnet_id     = module.vpc.public_subnet_id[3]
-  # vpc_security_group_ids = [module.vpc.security_group_id]
-  key_name = aws_key_pair.ssh_key.key_name
+  ami                    = coalesce(data.aws_ami.ubuntu.id, var.ami)
+  instance_type          = "t2.micro"
+  subnet_id              = module.vpc.public_subnet_id[0]
+  vpc_security_group_ids = [module.vpc.security_group_id]
+  key_name               = aws_key_pair.ssh_key.key_name
   #   user_data_base64       = data.cloudinit_config.php.rendered
   tags = merge({ Name = "php-demoapp", Env = "dev" }, var.tags, local.application_tags)
 
@@ -34,5 +34,5 @@ resource "aws_instance" "demo_server" {
 
 resource "aws_key_pair" "ssh_key" {
   key_name   = "keypair"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDI1rcaxY1qw5dJNZpgIDxDX+MeCwQVvz0KV6hY+OLbWDgy3rbNr0enRs3S7pcV9dpTnebpcCwjhgMEiVilk20u1oXAulhS75ZNRvvrAAn8OHyzympDcA5Ra70mgBg6ERpUZMDrDPvzFMfFZx9PsDDdATrnQ4/AOJPKp+Zn1wcSznK8FxvHrXJ70hlkJ3RKfdSMk6c8g0NsUfzSIvPcyF2l5Dw3iuifQ1ylDtlJEzGqjc9RoeVcIwRAYOjDpu1rhQMd+fzMfuIv0WVTL5vkUeIvQii8SlwkoOwGqOfK4BbIhwN6VoNn9dpPEDL8l7kPkOga3aJkGvChW3uemlSvWtZh1UyhSj4GHMMPG3A1f9mv6cyKDC0v33skeHfyhsplw9v5LG5KQxOrQYkTUInv6ENw+MzYYgSOrHkmgny7nPxVHIrA2FCITDKQ25dnPd661cqEEem13XftSrVPGtBoZgfXDhlIhQ3Rlijk3DMpfCIX9HaYESiUuI0RCSCiJY9ik4k= lbena@LAPTOP-QB0DU4OG"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC2X62YA8DOIbsZJ0xEk+9bYo4O6ZFTMGm9J43+jpdFX64PDyx47g9GVL1d26L4lifWX00fou8gqSUEUKbl9s2eksN8peWFq4bks+0bo/jknP22USP75pw5h6tcEF4bmphTEPvbCqo7XxW5RuQdy2QXSRXIGOa8Yd8g6UdXFU/jeb15xI3Y9x+TGHBca6EQSuWFAkjonVXudeh1/nz0JWMUBc99zF+BBG5q4CclVx4aHqG9B2BPmMMmB6so9WYxhHRH9Dqa6Ei/NVTrBSNGaWr/hKRt5RLCazHDvh/3V01bLRRIR9PG+4r8654SFRSDXHgFA7GdtElXFrp1vDs90u0n+i/NwbFwJnhj8L/MtzYGjREFm5+LmSXM5Xestk23wLGZHn3QhHiJYG4bQChoaKvxciO539yE6nlE9ujh2MM9id2sJ8lBVdxiLmddaIMbTRMVjzxuRTRpMncLH2hTDzmsAuoNpJm4nPMTevbsGGroshu5fj5DCH0PA9PEOGpCMCM= lbena@LAPTOP-QB0DU4OG"
 }

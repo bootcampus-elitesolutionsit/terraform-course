@@ -24,16 +24,16 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = var.map_public_ip_on_launch
   availability_zone       = element(var.azs, count.index)
 
-  # tags = merge(
-  #   {
-  #     "Name" = format(
-  #       "%s-${var.public_subnet_suffix}-%s",
-  #       var.name,
-  #     )
-  #   },
-  #   var.tags,
-  #   var.public_subnet_tags,
-  # )
+  tags = merge(
+    {
+      "Name" = format(
+        "${var.public_subnet_suffix}-%s",
+        element(var.azs, count.index),
+      )
+    },
+    var.tags,
+    var.public_subnet_tags,
+  )
 }
 
 # Subnet - Private
@@ -44,16 +44,16 @@ resource "aws_subnet" "private" {
   cidr_block        = element(var.private_subnets, count.index)
   availability_zone = element(var.azs, count.index)
 
-  # tags = merge(
-  #   {
-  #     "Name" = format(
-  #       "%s-${var.public_subnet_suffix}-%s",
-  #       var.name,
-  #     )
-  #   },
-  #   var.tags,
-  #   var.public_subnet_tags,
-  # )
+  tags = merge(
+    {
+      "Name" = format(
+        "${var.private_subnet_suffix}-%s",
+        element(var.azs, count.index),
+      )
+    },
+    var.tags,
+    var.public_subnet_tags,
+  )
 }
 
 
