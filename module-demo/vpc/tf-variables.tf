@@ -59,6 +59,12 @@ variable "public_subnet_suffix" {
   default     = "public"
 }
 
+variable "private_subnet_suffix" {
+  description = "Suffix to append to public subnets name"
+  type        = string
+  default     = "private"
+}
+
 variable "vpc_tags" {
   description = "Additional tags for the VPC"
   type        = map(string)
@@ -71,11 +77,18 @@ variable "public_subnet_tags" {
   default     = {}
 }
 
+variable "private_subnet_tags" {
+  description = "Additional tags for the public subnets"
+  type        = map(string)
+  default     = {}
+}
+
 variable "private_subnets" {
   description = "A list of private subnets inside the VPC"
   type        = list(string)
   default     = []
 }
+
 
 variable "azs" {
   description = "A list of availability zones names or ids in the region"
